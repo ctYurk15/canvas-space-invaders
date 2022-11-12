@@ -49,6 +49,10 @@ engine.addButtonPressEvent('ArrowLeft', function(){
     }
 });
 
+engine.addButtonPressEvent('Space', function(){
+    ship.shoot(engine);
+});
+
 engine.start();
 
 function animate()

@@ -27,6 +27,7 @@ export class Engine
         this.frames_calculator_interval = setInterval(function(){
             self.last_deltaTime = 1 / self.frames_count;
             self.frames_count = 0;
+            console.log(self.game_objects);
         }, 1000);
     }
 
