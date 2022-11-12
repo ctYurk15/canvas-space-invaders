@@ -1,2 +1,1 @@
-# Canvas Core
-This is core for future projects
+# Canvas Space Invaders
