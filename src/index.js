@@ -11,10 +11,12 @@ import {
     buildings_y, 
     alien_first_point,
     aliens_matrix_gap,
-    ship_speed
+    ship_speed,
+    alien_speed
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Alien } from './gameobjects/Alien';
+import { Cluster } from './gameobjects/Cluster';
 
 let animation_id = null;
 
@@ -40,23 +42,23 @@ for(let i = 1; i <= buildings_count; i++)
 }
 
 //aliens
-const aliens = [];
+const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed);
+
 for(let i = 1; i <= aliens_count.y; i++)
 {
     for(let j = 1; j <= aliens_count.x; j++)
     {
-        const x = alien_first_point.x * j + alien_size + aliens_matrix_gap * j;
-        const y = alien_first_point.y + alien_size * i + aliens_matrix_gap * i;
-        console.log(x, y);
+        const x = alien_size*(j-1) + alien_size + aliens_matrix_gap * j;
+        const y = i + alien_size * i + aliens_matrix_gap * i;
         const alien = new Alien(x, y, alien_size, alien_size, 'white');  
 
-        aliens.push(alien);
-        engine.addObject(alien);
+        cluster.aliens.push(alien);
     }
 }
 
 engine.addObject(ship);
 engine.addObject(line);
+engine.addObject(cluster);
 
 //button-actions
 engine.addButtonPressEvent('ArrowRight', function(){

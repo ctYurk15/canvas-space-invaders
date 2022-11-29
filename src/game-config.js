@@ -13,4 +13,5 @@ export const arrow_speed = 1000;
 export const aliens_count = new Point(11, 5);
 export const aliens_matrix_gap = 25;
 export const alien_size = 45;
-export const alien_first_point = new Point(50, 60);
+export const alien_first_point = new Point(50, 20);
+export const alien_speed = 250;
