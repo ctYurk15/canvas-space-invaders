@@ -1,16 +1,59 @@
 import { aliens_matrix_gap, alien_size, aliens_count} from '../game-config';
 import {GameObject} from './Gameobject';
+import { Rectangle } from './rectangle';
 
 export class Cluster extends GameObject
 {
     aliens = [];
     movement_direction = 1;
+    total_aliens = 0;
 
     constructor(x, y, engine, speed)
     {
         super(x, y);
         this.engine = engine;
         this.speed = speed;
+    }
+
+    addAlien(new_alien)
+    {
+        new_alien.id = 'ca-'+this.total_aliens;
+        this.aliens.push(new_alien);
+        this.total_aliens++;
+    }
+
+    getAlienCollider(requested_alien)
+    {
+        const self = this;
+        let resulted = null;
+
+        for(let alien of this.aliens)
+        {
+            if(alien.id == requested_alien.id)
+            {
+                resulted = alien;
+                break;
+            }
+        }
+
+        if(resulted != null)
+        {
+            const x = resulted.position.x + self.position.x;
+            const y = resulted.position.y + self.position.y;
+            
+            return new Rectangle(x, y, resulted.width, resulted.height, 'black');
+        }
+
+        return null;
+    }
+
+    removeAlien(alien_to_delete)
+    {
+        this.aliens = this.aliens.filter(function(alien){
+            return alien.id != alien_to_delete.id;
+        });
+        
+        this.total_aliens--;
     }
 
     render(canvas_context)

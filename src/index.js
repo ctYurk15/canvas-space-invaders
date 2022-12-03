@@ -27,7 +27,7 @@ const canvas = initializer.initializeCanvas();
 
 //game-object pool
 const engine = new Engine(canvas, 'black');
-const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime');
+const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', engine);
 const line = new Line(window.innerHeight - 50, 10, 20);
 
 //buildings
@@ -52,7 +52,7 @@ for(let i = 1; i <= aliens_count.y; i++)
         const y = i + alien_size * i + aliens_matrix_gap * i;
         const alien = new Alien(x, y, alien_size, alien_size, 'white');  
 
-        cluster.aliens.push(alien);
+        cluster.addAlien(alien);
     }
 }
 
@@ -62,25 +62,36 @@ engine.addObject(cluster);
 
 //button-actions
 engine.addButtonPressEvent('ArrowRight', function(){
-    if(
-        engine.last_deltaTime != 0 
-        && ship.position.x + ship.speed * engine.last_deltaTime < window.innerWidth - ship.width
-        )
-    {
-        ship.position.x += ship.speed * engine.last_deltaTime;
-    }
+    ship.move(1);
 });
 engine.addButtonPressEvent('ArrowLeft', function(){
-    if(
-        engine.last_deltaTime != 0 
-        && ship.position.x - ship.speed * engine.last_deltaTime > 0
-        )
-    {
-        ship.position.x -= ship.speed * engine.last_deltaTime;
-    }
+    ship.move(-1);
 });
 engine.addButtonPressEvent('Space', function(){
     ship.shoot(engine);
+});
+
+//collisions-check
+engine.addFrameAction(function(){
+    const arrows = engine.getObjectsByTag('arrow');
+    const aliens = cluster.aliens;
+
+    if(arrows.length > 0 && aliens.length > 0)
+    {
+        arrows.forEach(function(arrow){
+
+            aliens.forEach(function(alien){
+                const collider = cluster.getAlienCollider(alien);
+
+                if(collider != null && arrow.rectangleCollided(collider))
+                {
+                    cluster.removeAlien(alien);
+                    engine.deleteObject(arrow.id);
+                }
+            });
+
+        });
+    }
 });
 
 engine.start();

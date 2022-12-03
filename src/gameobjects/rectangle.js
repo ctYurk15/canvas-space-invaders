@@ -18,10 +18,10 @@ export class Rectangle extends GameObject
 
     rectangleCollided(object)
     {
-        if(this.position.x + this.width >= object.x 
-            && this.position.x <= object.x + object.width
-            && this.position.y + this.height >= object.y
-            && this.position.y <= object.y + object.height) return true;
+        if(this.position.x + this.width >= object.position.x 
+            && this.position.x <= object.position.x + object.width
+            && this.position.y + this.height >= object.position.y
+            && this.position.y <= object.position.y + object.height) return true;
 
         return false;
     }

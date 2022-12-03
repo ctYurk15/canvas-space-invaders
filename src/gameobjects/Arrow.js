@@ -2,6 +2,8 @@ import { Rectangle } from "./rectangle";
 
 export class Arrow extends Rectangle
 {
+    tag = 'arrow';
+    
     constructor(x, y, width, height, speed, engine, color)
     {
         super(x, y, width, height, color);

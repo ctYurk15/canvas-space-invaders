@@ -140,6 +140,21 @@ export class Engine
         return result;
     }
 
+    getObjectsByTag(tag = '')
+    {
+        let result = [];
+
+        for(let object of this.game_objects)
+        {
+            if(object.tag == tag)
+            {
+                result.push(object);
+            }
+        }
+
+        return result;
+    }
+
     clearObjects()
     {
         this.game_objects.forEach(function(object){
