@@ -71,9 +71,16 @@ engine.addButtonPressEvent('Space', function(){
     ship.shoot(engine);
 });
 
+let interval = setInterval(function(){
+    if(engine.last_deltaTime != null && engine.is_working && !engine.paused)
+    {
+        cluster.shoot();
+    }
+}, 1000);
+
 //collisions-check
 engine.addFrameAction(function(){
-    const arrows = engine.getObjectsByTag('arrow');
+    const arrows = engine.getObjectsByTag('ShipArrow');
     const aliens = cluster.aliens;
 
     if(arrows.length > 0 && aliens.length > 0)

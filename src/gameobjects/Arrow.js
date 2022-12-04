@@ -16,7 +16,7 @@ export class Arrow extends Rectangle
         super.render(canvas_context);
         this.position.y -= this.speed * this.engine.last_deltaTime;
 
-        if(this.position.y < 0)
+        if(this.position.y < 0 || this.position.y > window.innerHeight)
         {
             this.engine.deleteObject(this.id);
         }

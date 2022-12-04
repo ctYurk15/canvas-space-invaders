@@ -18,7 +18,9 @@ export class Ship extends Rectangle
         const x = this.position.x + this.width/2;
         const y = this.position.y - arrow_size.y;
 
-        const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, arrow_speed, this.engine, 'red');
+        const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, arrow_speed, this.engine, 'green');
+        arrow.tag = "ShipArrow";
+        
         this.engine.addObject(arrow);
     }
 

@@ -1,4 +1,12 @@
-import { aliens_matrix_gap, alien_size, aliens_count} from '../game-config';
+import { getRandomInt } from '../functions';
+import { 
+    aliens_matrix_gap, 
+    alien_size, 
+    aliens_count, 
+    arrow_size, 
+    arrow_speed,
+} from '../game-config';
+import { Arrow } from './Arrow';
 import {GameObject} from './Gameobject';
 import { Rectangle } from './rectangle';
 
@@ -13,6 +21,29 @@ export class Cluster extends GameObject
         super(x, y);
         this.engine = engine;
         this.speed = speed;
+    }
+
+    render(canvas_context)
+    {
+        const self = this;
+
+        this.aliens.forEach(function(alien){
+            alien.position.x += self.position.x;
+            alien.position.y += self.position.y;
+
+            alien.render(canvas_context);
+
+            alien.position.x -= self.position.x;
+            alien.position.y -= self.position.y;
+        });
+
+        this.position.x += this.movement_direction * this.engine.last_deltaTime * this.speed;
+
+        //out of borders
+        if(this.position.x < 0 || this.position.x + aliens_count.x * (alien_size + aliens_matrix_gap) + aliens_matrix_gap > window.innerWidth)
+        {
+            this.movement_direction *= -1;
+        }
     }
 
     addAlien(new_alien)
@@ -56,26 +87,17 @@ export class Cluster extends GameObject
         this.total_aliens--;
     }
 
-    render(canvas_context)
+    shoot()
     {
-        const self = this;
+        //pick-up random alien to shoot
+        const alien = this.aliens[getRandomInt(0, this.aliens.length)];
+        
+        const x = alien.position.x + alien_size/2;
+        const y = alien.position.y + alien_size/2;
+        const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, -1 * arrow_speed, this.engine, 'white');
+        arrow.tag = 'AlienArrow';
 
-        this.aliens.forEach(function(alien){
-            alien.position.x += self.position.x;
-            alien.position.y += self.position.y;
-
-            alien.render(canvas_context);
-
-            alien.position.x -= self.position.x;
-            alien.position.y -= self.position.y;
-        });
-
-        this.position.x += this.movement_direction * this.engine.last_deltaTime * this.speed;
-
-        //out of borders
-        if(this.position.x < 0 || this.position.x + aliens_count.x * (alien_size + aliens_matrix_gap) + aliens_matrix_gap > window.innerWidth)
-        {
-            this.movement_direction *= -1;
-        }
+        this.engine.addObject(arrow);
+        console.log(this.engine.game_objects);
     }
 }
