@@ -5,8 +5,9 @@ import { arrow_size, arrow_speed } from "../game-config";
 export class Ship extends Rectangle
 {
     speed = 0;
+    hp = 3;
 
-    constructor(x, y, width, height, speed, color, engine)
+    constructor(x, y, width, height, speed, color, hp, engine)
     {
         super(x, y, width, height, color);
         this.speed = speed;
@@ -34,6 +35,15 @@ export class Ship extends Rectangle
         )
         {
             this.position.x += this.speed * this.engine.last_deltaTime * direction;
+        }
+    }
+
+    damage(amount)
+    {
+        this.hp -= amount;
+        if(this.hp <= 0)
+        {
+            this.engine.stop();
         }
     }
 }

@@ -15,3 +15,4 @@ export const aliens_matrix_gap = 25;
 export const alien_size = 45;
 export const alien_first_point = new Point(50, 20);
 export const alien_speed = 250;
+export const alien_shoot_interval = 500;

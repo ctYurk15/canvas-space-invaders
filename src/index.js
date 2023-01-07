@@ -12,7 +12,8 @@ import {
     alien_first_point,
     aliens_matrix_gap,
     ship_speed,
-    alien_speed
+    alien_speed,
+    alien_shoot_interval
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Alien } from './gameobjects/Alien';
@@ -27,7 +28,7 @@ const canvas = initializer.initializeCanvas();
 
 //game-object pool
 const engine = new Engine(canvas, 'black');
-const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', engine);
+const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', 3, engine);
 const line = new Line(window.innerHeight - 50, 10, 20);
 
 //buildings
@@ -41,7 +42,7 @@ for(let i = 1; i <= buildings_count; i++)
     engine.addObject(building);
 }
 
-//aliens
+//add aliens
 const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed);
 
 for(let i = 1; i <= aliens_count.y; i++)
@@ -76,16 +77,18 @@ let interval = setInterval(function(){
     {
         cluster.shoot();
     }
-}, 1000);
+}, alien_shoot_interval);
 
 //collisions-check
 engine.addFrameAction(function(){
-    const arrows = engine.getObjectsByTag('ShipArrow');
+
+    //check for aliens collision
+    const ship_arrows = engine.getObjectsByTag('ShipArrow');
     const aliens = cluster.aliens;
 
-    if(arrows.length > 0 && aliens.length > 0)
+    if(ship_arrows.length > 0 && aliens.length > 0)
     {
-        arrows.forEach(function(arrow){
+        ship_arrows.forEach(function(arrow){
 
             aliens.forEach(function(alien){
                 const collider = cluster.getAlienCollider(alien);
@@ -99,6 +102,17 @@ engine.addFrameAction(function(){
 
         });
     }
+
+    //check for ship collisions
+    const alien_arrows = engine.getObjectsByTag('AlienArrow');
+    alien_arrows.forEach(function(alien_arrow){
+
+        if(alien_arrow.rectangleCollided(ship))
+        {
+            engine.deleteObject(alien_arrow.id);
+            ship.damage(1);
+        }
+    });
 });
 
 engine.start();
@@ -107,8 +121,6 @@ function animate()
 {
     animation_id = requestAnimationFrame(animate);
     engine.render();
-    //if(engine.last_deltaTime != 0) fps_counter.innerHTML = 'FPS: '+1/engine.last_deltaTime;
-   // if(engine.last_deltaTime != 0) fps_counter.innerHTML = 'FPS: '+1/engine.last_deltaTime;
 }
 
 animate();
