@@ -90,14 +90,13 @@ export class Cluster extends GameObject
     shoot()
     {
         //pick-up random alien to shoot
-        const alien = this.aliens[getRandomInt(0, this.aliens.length)];
+        let alien = this.aliens[getRandomInt(0, this.aliens.length)];
         
-        const x = alien.position.x + alien_size/2;
-        const y = alien.position.y + alien_size/2;
+        const x = alien.position.x + alien_size/2 + this.position.x;
+        const y = alien.position.y + alien_size/2 + this.position.y;
         const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, -1 * arrow_speed, this.engine, 'white');
         arrow.tag = 'AlienArrow';
 
         this.engine.addObject(arrow);
-        console.log(this.engine.game_objects);
     }
 }
