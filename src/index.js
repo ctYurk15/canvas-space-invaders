@@ -116,7 +116,7 @@ engine.addFrameAction(function(){
         }
     });
 
-    //check for building collisions
+    //check for building & line collisions
     alien_arrows.forEach(function(alien_arrow){
 
         for(let i = 0; i < buildings.length; i++)
@@ -134,8 +134,12 @@ engine.addFrameAction(function(){
                 break;
             }
         }
+
+        if(line.checkCollisions(alien_arrow))
+        {
+            engine.deleteObject(alien_arrow.id);
+        }
     });
-    console.log(buildings);
 });
 
 engine.start();
