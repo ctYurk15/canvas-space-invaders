@@ -2,10 +2,12 @@ import { Point } from "./gameobjects/Point";
 
 //game config
 export const ship_speed = 400;
+export const ship_hp = 5;
 
 export const buildings_count = 4;
 export const buildings_y = window.innerHeight / 2 + 100;
 export const buildings_size = new Point(100, 100);
+export const building_part_hp = 1;
 
 export const arrow_size = new Point(5, 25);
 export const arrow_speed = 1000;

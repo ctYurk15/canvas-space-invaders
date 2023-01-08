@@ -12,6 +12,7 @@ import {
     alien_first_point,
     aliens_matrix_gap,
     ship_speed,
+    ship_hp,
     alien_speed,
     alien_shoot_interval
 } from './game-config';
@@ -28,15 +29,16 @@ const canvas = initializer.initializeCanvas();
 
 //game-object pool
 const engine = new Engine(canvas, 'black');
-const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', 3, engine);
+const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', ship_hp, engine);
 const line = new Line(window.innerHeight - 50, 10, 20);
 
 //buildings
-const buildings = [];
+let buildings = [];
 for(let i = 1; i <= buildings_count; i++)
 {
     const x = (window.innerWidth / (buildings_count+1))*i - buildings_size.x;
-    const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y);   
+    const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y);  
+    building.id = 'building-'+i; 
 
     buildings.push(building);
     engine.addObject(building);
@@ -113,6 +115,27 @@ engine.addFrameAction(function(){
             ship.damage(1);
         }
     });
+
+    //check for building collisions
+    alien_arrows.forEach(function(alien_arrow){
+
+        for(let i = 0; i < buildings.length; i++)
+        {
+            const building = buildings[i];
+            if(building.checkCollisions(alien_arrow))
+            {
+                engine.deleteObject(alien_arrow.id);
+                if(building.parts.length == 0)
+                {
+                    buildings = buildings.filter(function(it_building){
+                        return it_building.id != building.id;
+                    });
+                }
+                break;
+            }
+        }
+    });
+    console.log(buildings);
 });
 
 engine.start();
