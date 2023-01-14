@@ -41,9 +41,10 @@ export class Ship extends Rectangle
     damage(amount)
     {
         this.hp -= amount;
-        if(this.hp <= 0)
+        if(this.hp < 0)
         {
-            this.engine.stop();
+            this.hp = 0;
+            //this.engine.stop();
         }
     }
 }

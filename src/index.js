@@ -14,7 +14,8 @@ import {
     ship_speed,
     ship_hp,
     alien_speed,
-    alien_shoot_interval
+    alien_shoot_interval,
+    line_segments
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Alien } from './gameobjects/Alien';
@@ -30,7 +31,7 @@ const canvas = initializer.initializeCanvas();
 //game-object pool
 const engine = new Engine(canvas, 'black');
 const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', ship_hp, engine);
-const line = new Line(window.innerHeight - 50, 10, 20);
+const line = new Line(window.innerHeight - 50, 10, line_segments);
 
 //buildings
 let buildings = [];
@@ -140,6 +141,12 @@ engine.addFrameAction(function(){
             engine.deleteObject(alien_arrow.id);
         }
     });
+
+    //all buildings& lines is destroyed, or hp is 0, game over
+    if((buildings.length == 0 && line.parts.length == 0) || ship.hp <= 0)
+    {
+        engine.stop();
+    }
 });
 
 engine.start();
