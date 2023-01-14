@@ -4,21 +4,19 @@ import {getRandomInt, getRandomColor} from './functions';
 import {Ship} from './gameobjects/Ship';
 import { Building } from './gameobjects/Building';
 import {
-    aliens_count, 
-    alien_size, 
     buildings_count, 
     buildings_size, 
     buildings_y, 
     alien_first_point,
-    aliens_matrix_gap,
     ship_speed,
     ship_hp,
     alien_speed,
     alien_shoot_interval,
-    line_segments
+    line_segments,
+    aliens_new_wave_time,
+    alien_hp,
 } from './game-config';
 import { Line } from './gameobjects/Line';
-import { Alien } from './gameobjects/Alien';
 import { Cluster } from './gameobjects/Cluster';
 
 let animation_id = null;
@@ -47,18 +45,7 @@ for(let i = 1; i <= buildings_count; i++)
 
 //add aliens
 const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed);
-
-for(let i = 1; i <= aliens_count.y; i++)
-{
-    for(let j = 1; j <= aliens_count.x; j++)
-    {
-        const x = alien_size*(j-1) + alien_size + aliens_matrix_gap * j;
-        const y = i + alien_size * i + aliens_matrix_gap * i;
-        const alien = new Alien(x, y, alien_size, alien_size, 'white');  
-
-        cluster.addAlien(alien);
-    }
-}
+cluster.fill();
 
 engine.addObject(ship);
 engine.addObject(line);
@@ -82,6 +69,8 @@ let interval = setInterval(function(){
     }
 }, alien_shoot_interval);
 
+let filling_cluster = false;
+
 //collisions-check
 engine.addFrameAction(function(){
 
@@ -98,7 +87,8 @@ engine.addFrameAction(function(){
 
                 if(collider != null && arrow.rectangleCollided(collider))
                 {
-                    cluster.removeAlien(alien);
+                    //cluster.removeAlien(alien);
+                    alien.damage(1);
                     engine.deleteObject(arrow.id);
                 }
             });
@@ -146,6 +136,24 @@ engine.addFrameAction(function(){
     if((buildings.length == 0 && line.parts.length == 0) || ship.hp <= 0)
     {
         engine.stop();
+    }
+    
+
+    //new wave of aliens
+    if(cluster.aliens.length == 0 && !filling_cluster)
+    {
+        filling_cluster = true;
+        let timeout = setTimeout(function(){
+
+            alien_hp++;
+            
+            cluster.position = alien_first_point;
+            cluster.fill();
+            clearTimeout(timeout);
+
+            filling_cluster = false;
+
+        }, aliens_new_wave_time);
     }
 });
 

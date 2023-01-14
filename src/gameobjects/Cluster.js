@@ -5,8 +5,10 @@ import {
     aliens_count, 
     arrow_size, 
     arrow_speed,
+    alien_hp,
 } from '../game-config';
 import { Arrow } from './Arrow';
+import { Alien } from './Alien';
 import {GameObject} from './Gameobject';
 import { Rectangle } from './rectangle';
 
@@ -21,6 +23,23 @@ export class Cluster extends GameObject
         super(x, y);
         this.engine = engine;
         this.speed = speed;
+    }
+
+    fill()
+    {
+        const self = this;
+
+        for(let i = 1; i <= aliens_count.y; i++)
+        {
+            for(let j = 1; j <= aliens_count.x; j++)
+            {
+                const x = alien_size*(j-1) + alien_size + aliens_matrix_gap * j;
+                const y = i + alien_size * i + aliens_matrix_gap * i;
+                const alien = new Alien(x, y, alien_size, alien_size, 'white', self, alien_hp);  
+
+                self.addAlien(alien);
+            }
+        }
     }
 
     render(canvas_context)
@@ -89,14 +108,17 @@ export class Cluster extends GameObject
 
     shoot()
     {
-        //pick-up random alien to shoot
-        let alien = this.aliens[getRandomInt(0, this.aliens.length)];
-        
-        const x = alien.position.x + alien_size/2 + this.position.x;
-        const y = alien.position.y + alien_size/2 + this.position.y;
-        const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, -1 * arrow_speed, this.engine, 'white');
-        arrow.tag = 'AlienArrow';
+        if(this.aliens.length != 0)
+        {
+            //pick-up random alien to shoot
+            let alien = this.aliens[getRandomInt(0, this.aliens.length)];
+            
+            const x = alien.position.x + alien_size/2 + this.position.x;
+            const y = alien.position.y + alien_size/2 + this.position.y;
+            const arrow = new Arrow(x, y, arrow_size.x, arrow_size.y, -1 * arrow_speed, this.engine, 'white');
+            arrow.tag = 'AlienArrow';
 
-        this.engine.addObject(arrow);
+            this.engine.addObject(arrow);
+        }
     }
 }
