@@ -3,10 +3,10 @@ export class Sprite
     current_frame = 0;
     animation_interval = null;
 
-    constructor(image, crop_width, crop_height,  frames, frame_time, width_multiplier = 1)
+    constructor(image, /*crop_width, crop_height,  frames, frame_time, width_multiplier = 1*/)
     {
         this.image = image;
-        this.frames = frames-1;
+        /*this.frames = frames-1;
         this.frame_time = frame_time;
         this.crop_width = crop_width;
         this.crop_height = crop_height;
@@ -15,15 +15,16 @@ export class Sprite
         if(this.frames > 0)
         {
             this.startAnimation();
-        }
+        }*/
     }
 
     draw(canvas_context, x, y, width, height)
     {
-        canvas_context.drawImage(this.image, this.crop_width*this.current_frame, 0, this.crop_width,  this.crop_height, x, y, width * this.width_multiplier, height);
+        //canvas_context.drawImage(this.image, this.crop_width*this.current_frame, 0, this.crop_width,  this.crop_height, x, y, width * this.width_multiplier, height);
+        canvas_context.drawImage(this.image, x, y, width, height);
     }
 
-    stopAnimation()
+    /*stopAnimation()
     {
         if(this.animation_interval != null) 
         {
@@ -43,5 +44,5 @@ export class Sprite
                 if(self.current_frame > self.frames) self.current_frame = 0;
             }, self.frame_time);
         }
-    }
+    }*/
 }

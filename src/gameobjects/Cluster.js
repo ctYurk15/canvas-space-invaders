@@ -18,11 +18,12 @@ export class Cluster extends GameObject
     movement_direction = 1;
     total_aliens = 0;
 
-    constructor(x, y, engine, speed)
+    constructor(x, y, engine, speed, alien_sprites)
     {
         super(x, y);
         this.engine = engine;
         this.speed = speed;
+        this.alien_sprites = alien_sprites;
     }
 
     fill()
@@ -35,7 +36,8 @@ export class Cluster extends GameObject
             {
                 const x = alien_size*(j-1) + alien_size + aliens_matrix_gap * j;
                 const y = i + alien_size * i + aliens_matrix_gap * i;
-                const alien = new Alien(x, y, alien_size, alien_size, 'white', self, alien_hp);  
+                const sprite = this.alien_sprites[getRandomInt(0, this.alien_sprites.length)];
+                const alien = new Alien(x, y, alien_size, alien_size, sprite, self, alien_hp);  
 
                 self.addAlien(alien);
             }

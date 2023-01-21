@@ -1,6 +1,5 @@
 import {Engine} from './components/Engine';
 import {Initializer} from './components/Initializer';
-import {getRandomInt, getRandomColor} from './functions';
 import {Ship} from './gameobjects/Ship';
 import { Building } from './gameobjects/Building';
 import {
@@ -18,6 +17,9 @@ import {
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Cluster } from './gameobjects/Cluster';
+import {alien_sprites} from './sprites';
+
+//window.v1 = alien_sprites;
 
 let animation_id = null;
 
@@ -44,7 +46,7 @@ for(let i = 1; i <= buildings_count; i++)
 }
 
 //add aliens
-const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed);
+const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed, alien_sprites);
 cluster.fill();
 
 engine.addObject(ship);
@@ -155,6 +157,9 @@ engine.addFrameAction(function(){
 
         }, aliens_new_wave_time);
     }
+
+    /*const ctx = canvas.getContext('2d');
+    alien_sprites.draw(ctx, 100, 100, 45, 45);*/
 });
 
 engine.start();

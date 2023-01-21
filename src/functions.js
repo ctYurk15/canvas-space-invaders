@@ -25,3 +25,11 @@ export function getEmpty2dArray(width, height)
 
     return result;
 }
+
+export function createImage(src)
+{
+    const image = new Image();
+    image.src = src;
+
+    return image;
+}

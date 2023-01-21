@@ -2,12 +2,18 @@ import {Rectangle} from "./rectangle";
 
 export class Alien extends Rectangle
 {
-    constructor(x, y, width, height, color, cluster, hp)
+    constructor(x, y, width, height, sprite, cluster, hp)
     {
-        super(x, y, width, height, color);
+        super(x, y, width, height, 'white');
 
         this.hp = hp;
         this.cluster = cluster;
+        this.sprite = sprite;
+    }
+
+    draw(canvas_context)
+    {
+        this.sprite.draw(canvas_context, this.position.x, this.position.y, this.width, this.height);
     }
 
     damage(amount)
