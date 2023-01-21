@@ -13,7 +13,7 @@ export class Line extends GameObject
         for(let i = 0; i < segments; i++)
         {
             const x = i * (window.innerWidth/segments);
-            const line_part = new Rectangle(x, y, window.innerWidth/segments, height, getRandomColor());
+            const line_part = new Rectangle(x, y, window.innerWidth/segments, height, 'lime');
             line_part.id = 'line-'+i;
 
             this.parts.push(line_part);

@@ -5,18 +5,20 @@ import {building_part_hp} from '../game-config';
 export class Building extends GameObject
 {
     parts = [];
+    building_sprites = [];
 
-    constructor(x, y, width, height)
+    constructor(x, y, width, height, building_sprites)
     {
         super(x, y);
 
         const self = this;
+        this.building_sprites = building_sprites;
 
         this.parts = [
-            new BuildingPart(x, y, width/2, height/2, 'red', self, building_part_hp),
-            new BuildingPart(x + width/2, y, width/2, height/2, 'green', self, building_part_hp),
-            new BuildingPart(x, y + height/2, width/2, height/2, 'blue', self, building_part_hp),
-            new BuildingPart(x + width/2, y + height/2, width/2, height/2, 'yellow', self, building_part_hp),
+            new BuildingPart(x, y, width/2, height/2, building_sprites[0], self, building_part_hp),
+            new BuildingPart(x + width/2, y, width/2, height/2, building_sprites[1], self, building_part_hp),
+            new BuildingPart(x, y + height/2, width/2, height/2, building_sprites[2], self, building_part_hp),
+            new BuildingPart(x + width/2, y + height/2, width/2, height/2, building_sprites[3], self, building_part_hp),
         ];
 
         //add unique ids

@@ -17,9 +17,7 @@ import {
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Cluster } from './gameobjects/Cluster';
-import {alien_sprites} from './sprites';
-
-//window.v1 = alien_sprites;
+import {alien_sprites, building_sprites} from './sprites';
 
 let animation_id = null;
 
@@ -38,7 +36,7 @@ let buildings = [];
 for(let i = 1; i <= buildings_count; i++)
 {
     const x = (window.innerWidth / (buildings_count+1))*i - buildings_size.x;
-    const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y);  
+    const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y, building_sprites);  
     building.id = 'building-'+i; 
 
     buildings.push(building);
