@@ -13,11 +13,11 @@ import {
     alien_shoot_interval,
     line_segments,
     aliens_new_wave_time,
-    alien_hp,
+    ship_size,
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Cluster } from './gameobjects/Cluster';
-import {alien_sprites, building_sprites} from './sprites';
+import {alien_sprites, building_sprites, ship_sprite} from './sprites';
 
 let animation_id = null;
 
@@ -28,7 +28,7 @@ const canvas = initializer.initializeCanvas();
 
 //game-object pool
 const engine = new Engine(canvas, 'black');
-const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, 100, 50, ship_speed, 'lime', ship_hp, engine);
+const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, ship_size.x, ship_size.y, ship_speed, ship_sprite, ship_hp, engine);
 const line = new Line(window.innerHeight - 50, 10, line_segments);
 
 //buildings
