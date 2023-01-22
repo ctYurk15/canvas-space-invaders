@@ -15,3 +15,15 @@ canvas
 {
     display: none !important;
 }
+
+.scoresContainer
+{
+    position: absolute;
+    color: white;
+    margin: 20px;
+}
+
+#scoresSpan
+{
+    color: lime;
+}

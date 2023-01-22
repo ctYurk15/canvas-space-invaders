@@ -16,11 +16,15 @@ export class Alien extends Rectangle
         this.sprite.draw(canvas_context, this.position.x, this.position.y, this.width, this.height);
     }
 
-    damage(amount)
+    damage(amount, deathFunction = null)
     {
         this.hp -= amount;
         if(this.hp <= 0)
         {
+            if(deathFunction != null)
+            {
+                deathFunction();
+            }
             this.cluster.removeAlien(this);
         }
     }

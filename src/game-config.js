@@ -22,6 +22,7 @@ export const alien_first_point = new Point(0, 20);
 export const alien_speed = 250;
 export const alien_shoot_interval = 400;
 export const aliens_new_wave_time = 2000;
+export const alien_scores_by_hp = 5;
 
 //config changes during the game
 export let alien_hp = 1;

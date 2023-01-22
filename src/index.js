@@ -1,5 +1,6 @@
 import {Engine} from './components/Engine';
 import {Initializer} from './components/Initializer';
+import { Progress } from './components/Progress';
 import {Ship} from './gameobjects/Ship';
 import { Building } from './gameobjects/Building';
 import {
@@ -14,6 +15,8 @@ import {
     line_segments,
     aliens_new_wave_time,
     ship_size,
+    alien_hp,
+    alien_scores_by_hp,
 } from './game-config';
 import { Line } from './gameobjects/Line';
 import { Cluster } from './gameobjects/Cluster';
@@ -21,7 +24,9 @@ import {alien_sprites, building_sprites, ship_sprite} from './sprites';
 
 let animation_id = null;
 
+//ui-elements
 const fps_counter = document.querySelector("#fpsSpan");
+const scores_text = document.querySelector("#scoresSpan");
 
 const initializer = new Initializer();
 const canvas = initializer.initializeCanvas();
@@ -30,6 +35,7 @@ const canvas = initializer.initializeCanvas();
 const engine = new Engine(canvas, 'black');
 const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, ship_size.x, ship_size.y, ship_speed, ship_sprite, ship_hp, engine);
 const line = new Line(window.innerHeight - 50, 10, line_segments);
+const progress_tracker = new Progress(scores_text);
 
 //buildings
 let buildings = [];
@@ -87,8 +93,9 @@ engine.addFrameAction(function(){
 
                 if(collider != null && arrow.rectangleCollided(collider))
                 {
-                    //cluster.removeAlien(alien);
-                    alien.damage(1);
+                    alien.damage(1, function(){
+                        progress_tracker.addScores(alien_scores_by_hp * alien_hp)
+                    });
                     engine.deleteObject(arrow.id);
                 }
             });
