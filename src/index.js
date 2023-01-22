@@ -1,8 +1,9 @@
 import {Engine} from './components/Engine';
 import {Initializer} from './components/Initializer';
-import { Progress } from './components/Progress';
+import {Progress} from './components/Progress';
+import {ShipHPDisplay} from './components/ShipHPDisplay';
 import {Ship} from './gameobjects/Ship';
-import { Building } from './gameobjects/Building';
+import {Building} from './gameobjects/Building';
 import {
     buildings_count, 
     buildings_size, 
@@ -27,13 +28,15 @@ let animation_id = null;
 //ui-elements
 const fps_counter = document.querySelector("#fpsSpan");
 const scores_text = document.querySelector("#scoresSpan");
+const hp_container = document.querySelector("#hpContainer");
 
 const initializer = new Initializer();
+const ship_hp_display = new ShipHPDisplay(hp_container);
 const canvas = initializer.initializeCanvas();
 
 //game-object pool
 const engine = new Engine(canvas, 'black');
-const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, ship_size.x, ship_size.y, ship_speed, ship_sprite, ship_hp, engine);
+const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, ship_size.x, ship_size.y, ship_speed, ship_sprite, ship_hp, engine, ship_hp_display);
 const line = new Line(window.innerHeight - 50, 10, line_segments);
 const progress_tracker = new Progress(scores_text);
 

@@ -4,7 +4,7 @@ import { Point } from "./gameobjects/Point";
 export const line_segments = 20;
 
 export const ship_speed = 800;
-export const ship_hp = 100;
+export const ship_hp = 3;
 export const ship_size = new Point(100, 50);
 
 export const buildings_count = 4;

@@ -16,7 +16,7 @@ canvas
     display: none !important;
 }
 
-.scoresContainer
+.ui-container
 {
     position: absolute;
     color: white;
@@ -26,4 +26,14 @@ canvas
 #scoresSpan
 {
     color: lime;
+}
+
+#hpContainer
+{
+    right: 0px;
+}
+
+#hpContainer img
+{
+    width: 50px;
 }

@@ -7,13 +7,14 @@ export class Ship extends Rectangle
     speed = 0;
     hp = 0;
 
-    constructor(x, y, width, height, speed, sprite, hp, engine)
+    constructor(x, y, width, height, speed, sprite, hp, engine, ship_hp_display)
     {
         super(x, y, width, height, 'lime');
         this.speed = speed;
         this.engine = engine;
         this.hp = hp;
         this.sprite = sprite;
+        this.ship_hp_display = ship_hp_display;
     }
 
     shoot()
@@ -48,10 +49,11 @@ export class Ship extends Rectangle
     damage(amount)
     {
         this.hp -= amount;
+        this.ship_hp_display.updateHP(this.hp);
+
         if(this.hp < 0)
         {
             this.hp = 0;
-            //this.engine.stop();
         }
     }
 }
