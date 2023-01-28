@@ -14,6 +14,12 @@ export class Progress
         this.updateUI();
     }
 
+    clear()
+    {
+        this.scores = 0;
+        this.updateUI();
+    }
+
     updateUI()
     {
         this.scores_text.innerHTML = this.scores;

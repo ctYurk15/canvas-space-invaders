@@ -3,6 +3,7 @@ body
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-color: black;
 }
 
 canvas
@@ -36,4 +37,37 @@ canvas
 #hpContainer img
 {
     width: 50px;
+}
+
+.ui-modal-container
+{
+    position: absolute;
+    width: 30%;
+    height: 20vh;
+    border-radius: 7px;
+    border: 2px solid lime;
+    color: white;
+    left: 35%;
+    top: 35vh;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+}
+
+.ui-modal-container button
+{
+    height: 40px;
+    width: 200px;
+    background-color: black;
+    color: white;
+    border-color: lime;
+    border-radius: 7px;
+}
+
+.ui-modal-container button:hover
+{
+    cursor: pointer;
+    background-color: lime;
+    transition: 0.5s ease;
 }

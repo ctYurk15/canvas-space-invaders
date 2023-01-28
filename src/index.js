@@ -29,6 +29,8 @@ let animation_id = null;
 const fps_counter = document.querySelector("#fpsSpan");
 const scores_text = document.querySelector("#scoresSpan");
 const hp_container = document.querySelector("#hpContainer");
+const menu_modal = document.querySelector("#menuModal");
+const start_game_btn = document.querySelector("#startGameBtn");
 
 const initializer = new Initializer();
 const ship_hp_display = new ShipHPDisplay(hp_container);
@@ -42,19 +44,38 @@ const progress_tracker = new Progress(scores_text);
 
 //buildings
 let buildings = [];
-for(let i = 1; i <= buildings_count; i++)
-{
-    const x = (window.innerWidth / (buildings_count+1))*i - buildings_size.x;
-    const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y, building_sprites);  
-    building.id = 'building-'+i; 
-
-    buildings.push(building);
-    engine.addObject(building);
-}
 
 //add aliens
 const cluster = new Cluster(alien_first_point.x, alien_first_point.y, engine, alien_speed, alien_sprites);
-cluster.fill();
+
+function start()
+{
+    buildings = [];
+    ship.hp = ship_hp;
+    ship.ship_hp_display.updateHP(ship_hp);
+
+    for(let i = 1; i <= buildings_count; i++)
+    {
+        const x = (window.innerWidth / (buildings_count+1))*i - buildings_size.x;
+        const building = new Building(x, buildings_y, buildings_size.x, buildings_size.y, building_sprites);  
+        building.id = 'building-'+i; 
+    
+        buildings.push(building);
+        engine.addObject(building);
+    }
+
+    cluster.clear();
+    line.clear();
+    filling_cluster = true;
+
+    engine.start();
+    let interval = setInterval(function(){
+        cluster.fill();
+        line.fill();
+        filling_cluster = false;
+        clearInterval(interval);
+    }, 1000);
+}
 
 engine.addObject(ship);
 engine.addObject(line);
@@ -146,6 +167,9 @@ engine.addFrameAction(function(){
     if((buildings.length == 0 && line.parts.length == 0) || ship.hp <= 0)
     {
         engine.stop();
+
+        menu_modal.classList.remove('hidden');
+        progress_tracker.clear();
     }
     
 
@@ -170,7 +194,14 @@ engine.addFrameAction(function(){
     alien_sprites.draw(ctx, 100, 100, 45, 45);*/
 });
 
-engine.start();
+//ui binding
+start_game_btn.addEventListener('click', function(){
+    menu_modal.classList.add('hidden');
+    start();
+    console.log(cluster.aliens);
+});
+
+//engine.start();
 
 function animate()
 {

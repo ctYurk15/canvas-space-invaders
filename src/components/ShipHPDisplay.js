@@ -16,6 +16,7 @@ export class ShipHPDisplay
             if(ship_hp > 0)
             {
                 ship_hp--;
+                hp_images[i].style.visibility = '';
             }
             else
             {

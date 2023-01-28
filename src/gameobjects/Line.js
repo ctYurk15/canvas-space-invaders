@@ -9,11 +9,21 @@ export class Line extends GameObject
     constructor(y, height, segments = 10)
     {
         super(0, y);
+        this.height = height;
+        this.segments = segments;
+    }
 
-        for(let i = 0; i < segments; i++)
+    clear()
+    {
+        this.parts = [];
+    }
+
+    fill()
+    {
+        for(let i = 0; i < this.segments; i++)
         {
-            const x = i * (window.innerWidth/segments);
-            const line_part = new Rectangle(x, y, window.innerWidth/segments, height, 'lime');
+            const x = i * (window.innerWidth/this.segments);
+            const line_part = new Rectangle(x, this.position.y, window.innerWidth/this.segments, this.height, 'lime');
             line_part.id = 'line-'+i;
 
             this.parts.push(line_part);

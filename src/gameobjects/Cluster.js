@@ -26,6 +26,11 @@ export class Cluster extends GameObject
         this.alien_sprites = alien_sprites;
     }
 
+    clear()
+    {
+        this.aliens = [];
+    }
+
     fill()
     {
         const self = this;
@@ -48,23 +53,28 @@ export class Cluster extends GameObject
     {
         const self = this;
 
-        this.aliens.forEach(function(alien){
-            alien.position.x += self.position.x;
-            alien.position.y += self.position.y;
-
-            alien.render(canvas_context);
-
-            alien.position.x -= self.position.x;
-            alien.position.y -= self.position.y;
-        });
-
-        this.position.x += this.movement_direction * this.engine.last_deltaTime * this.speed;
-
-        //out of borders
-        if(this.position.x < -1 * alien_size*2 || this.position.x + aliens_count.x * (alien_size + aliens_matrix_gap) + aliens_matrix_gap > window.innerWidth)
+        if(this.engine.last_deltaTime != 0 && this.engine.last_deltaTime != Infinity)
         {
-            this.movement_direction *= -1;
+            this.aliens.forEach(function(alien){
+                alien.position.x += self.position.x;
+                alien.position.y += self.position.y;
+    
+                alien.render(canvas_context);
+    
+                alien.position.x -= self.position.x;
+                alien.position.y -= self.position.y;
+            });
+    
+            this.position.x += this.movement_direction * this.engine.last_deltaTime * this.speed;
+    
+            //out of borders
+            if(this.position.x < -1 * alien_size*2 || this.position.x + aliens_count.x * (alien_size + aliens_matrix_gap) + aliens_matrix_gap > window.innerWidth)
+            {
+                this.movement_direction *= -1;
+            }
         }
+
+        //console.log(this.aliens);
     }
 
     addAlien(new_alien)
