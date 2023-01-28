@@ -31,6 +31,7 @@ const scores_text = document.querySelector("#scoresSpan");
 const hp_container = document.querySelector("#hpContainer");
 const menu_modal = document.querySelector("#menuModal");
 const start_game_btn = document.querySelector("#startGameBtn");
+const highscore_text = document.querySelector("#highscoreContainer");
 
 const initializer = new Initializer();
 const ship_hp_display = new ShipHPDisplay(hp_container);
@@ -40,7 +41,7 @@ const canvas = initializer.initializeCanvas();
 const engine = new Engine(canvas, 'black');
 const ship = new Ship(window.innerWidth/2 - 100, window.innerHeight - 200, ship_size.x, ship_size.y, ship_speed, ship_sprite, ship_hp, engine, ship_hp_display);
 const line = new Line(window.innerHeight - 50, 10, line_segments);
-const progress_tracker = new Progress(scores_text);
+const progress_tracker = new Progress(scores_text, highscore_text);
 
 //buildings
 let buildings = [];
